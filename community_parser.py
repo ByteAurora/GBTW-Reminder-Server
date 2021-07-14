@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-chrome_driver_path = 'chromedriver'
+chrome_driver_path = './chromedriver'
 
 state = True
 
