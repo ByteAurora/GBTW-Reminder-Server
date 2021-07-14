@@ -7,6 +7,10 @@ import send_notification as sender
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from puvritualdisplay import Display
+
+display = Display(visible=0, size=(1024, 768))
+display.start()
 
 chrome_driver_path = './chromedriver'
 
