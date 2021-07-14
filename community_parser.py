@@ -170,6 +170,8 @@ def check_community():
                 print(sender.send_notify_to_group('youtube', notification_title, element.text.strip()))
         before_youtube_list = copy.deepcopy(new_youtube_list)
 
-        print('Refresh data finished')
+        now = time.localtime()
+        print('%04d/%02d/%-2d %02d:%02d:%02d > Refresh data finished'.format(now.tm_year, now.tm_mon, now.tm_mday,
+                                                                             now.tm_hour, now.tm_min, now.tm_sec))
 
         time.sleep(5)
