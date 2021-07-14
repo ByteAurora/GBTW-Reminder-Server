@@ -7,7 +7,7 @@ import send_notification as sender
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from puvritualdisplay import Display
+from pyvirtualdisplay import Display
 
 display = Display(visible=0, size=(1024, 768))
 display.start()
@@ -157,5 +157,7 @@ def check_community():
                 print(title, element.text.strip())
                 print(sender.send_notify_to_group('youtube', notification_title, element.text.strip()))
         before_youtube_list = copy.deepcopy(new_youtube_list)
+
+	print('Refresh data finished')
 
         time.sleep(5)
