@@ -42,7 +42,7 @@ def check_community_trial():
         # Check new notice
         page = requests.get("https://community.joycity.com/gw/notice")
         soup = bs(page.text, "html.parser")
-        elements = soup.select('li.board_item div > a')
+        elements = soup.select("li.board_item.not('.notice') div > a")
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
