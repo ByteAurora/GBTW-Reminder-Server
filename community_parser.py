@@ -176,7 +176,7 @@ def check_community_trial():
         now = time.localtime()
         print('%04d/%02d/%-2d %02d:%02d:%02d > Refresh data finished' % (now.tm_year, now.tm_mon, now.tm_mday,
                                                                          now.tm_hour, now.tm_min, now.tm_sec))
-        time.sleep(5)
+        time.sleep(10)
 
 '''
 def check_community():
