@@ -37,3 +37,6 @@ sudo apt-get install git
 git config --global user.name (이름)
 git config --global user.mail (메일주소)
 sudo vim ~/.bashrc
+
+5. tmux 설치
+sudo apt-get install tmux
