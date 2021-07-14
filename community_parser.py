@@ -18,8 +18,10 @@ state = True
 
 driver = webdriver.Chrome(chrome_driver_path)
 
+
 def check_community():
     before_notice_list = list()
+    before_notice_coupon_list = list()
     before_update_list = list()
     before_event_list = list()
     before_end_event_list = list()
@@ -28,6 +30,7 @@ def check_community():
 
     while state:
         new_notice_list = list()
+        new_notice_coupon_list = list()
         new_update_list = list()
         new_event_list = list()
         new_end_event_list = list()
@@ -36,7 +39,7 @@ def check_community():
 
         driver.get('https://www.youtube.com/user/jcenest/videos')
 
-        # 신규 공지 확인
+        # 신규 공지, 쿠폰 확인
         page = requests.get("https://community.joycity.com/gw/notice")
         soup = bs(page.text, "html.parser")
         elements = soup.select('div.sub_title a')
@@ -44,12 +47,19 @@ def check_community():
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
 
-            new_notice_list.append(title)
+            if '쿠폰' not in title:
+                new_notice_list.append(title)
+                if title not in before_notice_list:
+                    print('공지사항', element.text.strip())
+                    print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
+            else:
+                new_notice_coupon_list.append(title)
+                if title not in before_notice_coupon_list:
+                    print('쿠폰', element.text.strip())
+                    print(sender.send_notify_to_group('noticecoupon', '쿠폰', element.text.strip()))
 
-            if title not in before_notice_list:
-                print('공지사항', element.text.strip())
-                print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
         before_notice_list = copy.deepcopy(new_notice_list)
+        before_notice_coupon_list = copy.deepcopy(new_notice_coupon_list)
 
         # 신규 업데이트 확인
         page = requests.get("https://community.joycity.com/gw/update")
