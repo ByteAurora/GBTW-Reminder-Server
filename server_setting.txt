@@ -17,6 +17,7 @@ google-chrome --version
 # 크롬 드라이버 다운로드
 # 주소 확인 링크: https://sites.google.com/a/chromium.org/chromedriver/
 wget -N https://chromedriver.storage.googleapis.com/91.0.4472.101/chromedriver_linux64.zip
+sudo apt install unzip
 unzip chromedriver_linux64.zip
 
 # 추가 라이브러리 설치
@@ -30,3 +31,9 @@ pip install lxml
 pip install pyfcm
 pip install requests
 pip install selenium
+
+4. git 설치
+sudo apt-get install git
+git config --global user.name (이름)
+git config --global user.mail (메일주소)
+sudo vim ~/.bashrc
