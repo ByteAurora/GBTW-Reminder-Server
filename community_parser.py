@@ -1,6 +1,7 @@
 import time
 import requests
 import copy
+import re
 
 import send_notification as sender
 
@@ -15,6 +16,9 @@ display.start()
 chrome_driver_path = './chromedriver'
 
 state = True
+
+gbtw_site_link = "https://community.joycity.com/gw/"
+gbtw_notice_link = "notice/view?boardUrl=notice&boardItemNo="
 
 def check_community_trial():
     before_notice_list = list()
@@ -44,11 +48,19 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = re.sub("\f\n\'();", "", element['onclick'])
 
             new_notice_list.append(title)
             if title not in before_notice_list:
+                data_message = {
+                    "title": "공지사항"
+                    , "body": element.text.strip()
+                    , "link": gbtw_site_link + gbtw_notice_link + post_value
+                }
+
                 print('공지사항', element.text.strip())
-                print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
+                print(sender.send_data_to_group('notice', data_message=data_message))
+                #print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
 
         before_notice_list = copy.deepcopy(new_notice_list)
 
