@@ -1,7 +1,6 @@
 import time
 import requests
 import copy
-import re
 
 import send_notification as sender
 
@@ -10,15 +9,19 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from pyvirtualdisplay import Display
 
-display = Display(visible=0, size=(1024, 768))
+display = Display(visible=False, size=(1024, 768))
 display.start()
 
 chrome_driver_path = './chromedriver'
 
 state = True
 
-gbtw_site_link = "https://community.joycity.com/gw/"
-gbtw_notice_link = "notice/view?boardUrl=notice&boardItemNo="
+gbtw_notice_link = "https://community.joycity.com/gw/notice/view?boardUrl=notice&boardItemNo="
+gbtw_update_link = "https://community.joycity.com/gw/update/view?boardUrl=update&boardItemNo="
+gbtw_cm_link = "https://community.joycity.com/gw/cm/view?boardUrl=cm&boardItemNo="
+gbtw_event_link = "https://community.joycity.com/gw/event/view?boardUrl=event&boardItemNo="
+gbtw_end_event_link = "https://community.joycity.com/gw/endEvent/view?boardUrl=endEvent&boardItemNo="
+gbtw_event_winner_link = "https://community.joycity.com/gw/eventResult/view?boardUrl=eventResult&boardItemNo="
 
 def check_community_trial():
     before_notice_list = list()
@@ -57,12 +60,11 @@ def check_community_trial():
                 data_message = {
                     "title": "공지사항"
                     , "body": element.text.strip()
-                    , "link": gbtw_site_link + gbtw_notice_link + post_value
+                    , "link": gbtw_notice_link + post_value
                 }
 
                 print('공지사항', element.text.strip())
                 print(sender.send_data_to_group('notice', data_message))
-                #print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
 
         before_notice_list = copy.deepcopy(new_notice_list)
 
@@ -73,31 +75,36 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = element['onclick']
+            post_value = post_value.replace("fnView('", "")
+            post_value = post_value.replace("');", "")
 
             new_update_list.append(title)
 
             if title not in before_update_list:
+                data_message = {
+                    "body": element.text.strip()
+                    , "link": gbtw_update_link + post_value
+                }
                 if '업데이트' in title:
                     if '완료' in title:
-                        print('업데이트(완료): ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '업데이트 완료', element.text.strip()))
+                        data_message['title'] = '업데이트 완료'
                     else:
-                        print('업데이트: ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '업데이트 공지', element.text.strip()))
+                        data_message['title'] = '업데이트 공지'
                 elif '정기' in title:
                     if '완료' in title:
-                        print('정기점검(완료): ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '정기점검 완료', element.text.strip()))
+                        data_message['title'] = '정기점검 완료'
                     else:
-                        print('정기점검: ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '정기점검 공지', element.text.strip()))
+                        data_message['title'] = '정기점검 공지'
                 elif '임시' in title:
                     if '완료' in title:
-                        print('임시점검(완료): ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '임시점검 완료', element.text.strip()))
+                        data_message['title'] = '임시점검 완료'
                     else:
-                        print('임시점검: ', element.text.strip())
-                        print(sender.send_notify_to_group('update', '임시점검 공지', element.text.strip()))
+                        data_message['title'] = '임시점검 공지'
+
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('update', data_message))
+
         before_update_list = copy.deepcopy(new_update_list)
 
         # Check new cm
@@ -107,19 +114,27 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = element['onclick']
+            post_value = post_value.replace("fnView('", "")
+            post_value = post_value.replace("');", "")
 
             new_cm_list.append(title)
 
             if title not in before_cm_list:
+                data_message = {
+                    "body": element.text.strip()
+                    , "link": gbtw_cm_link + post_value
+                }
                 if '쿠폰' in title:
-                    print('쿠폰 지급: ', element.text.strip())
-                    print(sender.send_notify_to_group('event', '쿠폰 지급', element.text.strip()))
+                    data_message['title'] = '쿠폰 지급'
                 elif '골든벨' in title:
-                    print('도전! 건쉽배틀 골든벨: ', element.text.strip())
-                    print(sender.send_notify_to_group('event', '도전! 건쉽배틀 골든벨', element.text.strip()))
+                    data_message['title'] = '도전! 건쉽배틀 골든벨'
                 else:
-                    print('이벤트: ', element.text.strip())
-                    print(sender.send_notify_to_group('event', '이벤트', element.text.strip()))
+                    data_message['title'] = '이벤트'
+
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('event', data_message))
+
         before_cm_list = copy.deepcopy(new_cm_list)
 
         # Check new event
@@ -129,12 +144,21 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = element['onclick']
+            post_value = post_value.replace("fnView('", "")
+            post_value = post_value.replace("');", "")
 
             new_event_list.append(title)
 
             if title not in before_event_list:
-                print('신규 이벤트: ', element.text.strip())
-                print(sender.send_notify_to_group('event', '이벤트', element.text.strip()))
+                data_message = {
+                    "title": "이벤트",
+                    "body": element.text.strip(),
+                    "link": gbtw_event_link + post_value
+                }
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('event', data_message))
+                
         before_event_list = copy.deepcopy(new_event_list)
 
         # Check end event
@@ -144,12 +168,21 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = element['onclick']
+            post_value = post_value.replace("fnView('", "")
+            post_value = post_value.replace("');", "")
 
             new_end_event_list.append(title)
 
             if title not in before_end_event_list:
-                print('이벤트(종료): ', element.text.strip())
-                print(sender.send_notify_to_group('endEvent', '이벤트(종료)', element.text.strip()))
+                data_message = {
+                    "title": "이벤트 종료",
+                    "body": element.text.strip(),
+                    "link": gbtw_end_event_link + post_value
+                }
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('endEvent', data_message))
+
         before_end_event_list = copy.deepcopy(new_end_event_list)
 
         # Check event winner
@@ -159,12 +192,21 @@ def check_community_trial():
 
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
+            post_value = element['onclick']
+            post_value = post_value.replace("fnView('", "")
+            post_value = post_value.replace("');", "")
 
             new_event_winner_list.append(title)
 
             if title not in before_event_winner_list:
-                print('당첨자 발표: ', element.text.strip())
-                print(sender.send_notify_to_group('eventWinner', '당첨자 발표', element.text.strip()))
+                data_message = {
+                    "title": "당첨자 발표",
+                    "body": element.text.strip(),
+                    "link": gbtw_event_winner_link + post_value
+                }
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('eventWinner', data_message))
+
         before_event_winner_list = copy.deepcopy(new_event_winner_list)
 
         # Check youtube video
