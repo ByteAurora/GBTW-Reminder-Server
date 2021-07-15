@@ -50,7 +50,7 @@ def check_community_trial():
             title = element.text.strip()
             post_value = element['onclick']
             post_value = post_value.replace("fnView('", "")
-            post_value = post_value.replace("')", "")
+            post_value = post_value.replace("');", "")
 
             new_notice_list.append(title)
             if title not in before_notice_list:
