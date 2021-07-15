@@ -49,7 +49,7 @@ def check_community_trial():
         for index, element in enumerate(reversed(elements), 1):
             title = element.text.strip()
             post_value = element['onclick']
-            post_value = post_value.replace("fnview('", "")
+            post_value = post_value.replace("fnView('", "")
             post_value = post_value.replace("')", "")
 
             new_notice_list.append(title)
