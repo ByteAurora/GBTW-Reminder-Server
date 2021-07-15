@@ -59,7 +59,7 @@ def check_community_trial():
                 }
 
                 print('공지사항', element.text.strip())
-                print(sender.send_data_to_group('notice', data_message=data_message))
+                print(sender.send_data_to_group('notice', data_message))
                 #print(sender.send_notify_to_group('notice', '공지사항', element.text.strip()))
 
         before_notice_list = copy.deepcopy(new_notice_list)
