@@ -16,9 +16,6 @@ chrome_driver_path = './chromedriver'
 
 state = True
 
-driver = webdriver.Chrome(chrome_driver_path)
-
-
 def check_community_trial():
     before_notice_list = list()
     before_update_list = list()
@@ -37,6 +34,7 @@ def check_community_trial():
         new_event_winner_list = list()
         new_youtube_list = list()
 
+        driver = webdriver.Chrome(chrome_driver_path)
         driver.get('https://www.youtube.com/user/jcenest/videos')
 
         # Check new notice
@@ -176,6 +174,9 @@ def check_community_trial():
         now = time.localtime()
         print('%04d/%02d/%-2d %02d:%02d:%02d > Refresh data finished' % (now.tm_year, now.tm_mon, now.tm_mday,
                                                                          now.tm_hour, now.tm_min, now.tm_sec))
+
+        driver.close()
+
         time.sleep(10)
 
 '''
