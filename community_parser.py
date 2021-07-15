@@ -22,6 +22,7 @@ gbtw_cm_link = "https://community.joycity.com/gw/cm/view?boardUrl=cm&boardItemNo
 gbtw_event_link = "https://community.joycity.com/gw/event/view?boardUrl=event&boardItemNo="
 gbtw_end_event_link = "https://community.joycity.com/gw/endEvent/view?boardUrl=endEvent&boardItemNo="
 gbtw_event_winner_link = "https://community.joycity.com/gw/eventResult/view?boardUrl=eventResult&boardItemNo="
+gbtw_youtube_link = "https://www.youtube.com"
 
 def check_community_trial():
     before_notice_list = list()
@@ -221,16 +222,21 @@ def check_community_trial():
             title = element.text.strip()
             new_youtube_list.append(title)
             video_title = title.strip()
+            link = element['href']
 
             if title not in before_youtube_list and ('건쉽' in video_title or 'Gunship' in video_title):
-                print("Youtube Video: ", element.text.strip())
-                print(sender.send_notify_to_group('youtube', "유튜브 신규 영상", element.text.strip()))
+                data_message = {
+                    "title": "유튜브 신규 영상",
+                    "body": element.text.strip(),
+                    "link": gbtw_youtube_link + link
+                }
+                print(data_message['title'], element.text.strip())
+                print(sender.send_data_to_group('youtube', data_message))
         before_youtube_list = copy.deepcopy(new_youtube_list)
 
         now = time.localtime()
-        print('%04d/%02d/%-2d %02d:%02d:%02d > Refresh data finished' % (now.tm_year, now.tm_mon, now.tm_mday,
+        print('[%04d/%02d/%-2d %02d:%02d:%02d] Refresh data finished' % (now.tm_year, now.tm_mon, now.tm_mday,
                                                                          now.tm_hour, now.tm_min, now.tm_sec))
-
         driver.close()
 
         time.sleep(10)
