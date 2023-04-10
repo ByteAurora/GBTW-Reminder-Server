@@ -1,8 +1,6 @@
 from pyfcm import FCMNotification
 
-APIKEY = "AAAAeMqKdfs:APA91bGdm7YD_RVcTX9_1oiJy_S4rZEgHmu66d" \
-         "mbZZRaiRvpGD_kYL0kR7amy2o-I0XhEUxw_cOyoUDMvlncNhc0" \
-         "X16Y-xGb3-B_Dq1LIr8fpEKk9DuvR-KhvKm4B1ymvpYDGnnoDj6i"
+APIKEY = ""
 
 push_service = FCMNotification(APIKEY)
 
