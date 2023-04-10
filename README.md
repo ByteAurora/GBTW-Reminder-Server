@@ -6,7 +6,6 @@ GBTW Reminder Server는 건쉽배틀 : 토탈워페어 홈페이지와 공식 �
 <br><br>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white"/>
   <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white"/>
   <img src="https://img.shields.io/badge/Firebase Cloud Messaging-FFCA28?style=flat-square&logo=firebase&logoColor=black"/>
