@@ -9,9 +9,9 @@ GBTW Reminder Server는 건쉽배틀 : 토탈워페어 홈페이지와 공식 �
   <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/>
   <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white"/>
   <img src="https://img.shields.io/badge/Firebase Cloud Messaging-FFCA28?style=flat-square&logo=firebase&logoColor=black"/>
-  
   <br>
-
+  <a href = "https://github.com/ILoveGameCoding/GBTW-Reminder-Client"><img src="https://img.shields.io/badge/CLIENT REPO-GBTW REMINDER CLIENT-informatoinal?style=for-the-badge"/></a>
+  <br>
 </p>
 
 <br>
